@@ -13,7 +13,7 @@ var app = express();
 //app.engine('html', require('hbs').render);
 app.set("view engine","hbs");
 //app.set("views",__dirname+"views");
-app.listen(9999,function(){
+app.listen( process.env.PORT || 9999 ,function(){
   console.log("express server running in http://localhost:9999");
 });
 
