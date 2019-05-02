@@ -14,6 +14,9 @@ var app = express();
 app.set("view engine","hbs");
 //app.set("views",__dirname+"views");
 app.listen( process.env.PORT || 9999 ,function(){
+  if(process.env.PORT)
+    console.log("express server running in http://localhost:"+process.env.PORT);
+  else
   console.log("express server running in http://localhost:9999");
 });
 
@@ -25,13 +28,16 @@ app.get('/test/:server',function(request,response){
   const MongoClient = require('mongodb').MongoClient;
   const uri = "mongodb+srv://naveen:root@cluster0-y7o64.mongodb.net/EazyChare?retryWrites=true";
   const client = new MongoClient(uri, { useNewUrlParser: true });
-  client.connect(err => {
-  const collection = client.db("EazyChare").collection("accounts");
-  var cursor = collection.find();
-  cursor.each(function(err, doc) {
-        console.log(doc);
-    });
-  // perform actions on the collection object
-  client.close();
-});
+  client.connect((err,client) => {
+    if(err)
+      console.log(err);
+    else{
+      const collection = client.db("EazyChare").collection("accounts");
+      var cursor = collection.find();
+      cursor.each(function(err, doc) {
+            console.log(doc);
+        });
+    }
+    client.close();
+  });
 });
