@@ -21,4 +21,17 @@ app.listen( process.env.PORT || 9999 ,function(){
 app.get('/test/:server',function(request,response){
   response.render('handle',{ "name" : "naveen kumar" , "outdata" : { "data" : [ {"key":"nodeval"},{"key":"pythonvalue"}] } , "complex" : { "ar" : ["sdf"] } });
   //response.send("get request working for "+request.params.server);
+
+  const MongoClient = require('mongodb').MongoClient;
+  const uri = "mongodb+srv://naveen:root@cluster0-y7o64.mongodb.net/EazyChare?retryWrites=true";
+  const client = new MongoClient(uri, { useNewUrlParser: true });
+  client.connect(err => {
+  const collection = client.db("EazyChare").collection("accounts");
+  var cursor = collection.find();
+  cursor.each(function(err, doc) {
+        console.log(doc);
+    });
+  // perform actions on the collection object
+  client.close();
+});
 });
